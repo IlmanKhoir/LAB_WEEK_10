@@ -17,20 +17,17 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         prepareViewModel()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 
     private fun updateText(total: Int) {
         findViewById<TextView>(R.id.text_total).text = getString(R.string.text_total, total)
     }
 
-    private fun prepareViewModel() {
-        viewModel.total.observe(this) { total ->
-            updateText(total)
+    private fun prepareViewModel(){
+        // Observe the LiveData object
+        viewModel.total.observe(this) {
+            // Whenever the value of the LiveData object changes
+            updateText(it)
         }
 
         findViewById<Button>(R.id.button_increment).setOnClickListener {
